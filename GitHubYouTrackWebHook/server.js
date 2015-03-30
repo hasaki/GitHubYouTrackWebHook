@@ -1,13 +1,26 @@
 ﻿var http = require('http');
 var port = process.env.port || 1337;
+var _ = require('underscore');
 
 var createHandler = require('github-webhook-handler');
 var handler = createHandler({ path: '/webhook', secret: 'hah' });
+var branchPattern = "(master|f\-.+)$";
+
+var isMasterOrFeatureBranch = function (branchName) {
+	// refs/heads/master
+	// refs/heads/f-somefeature
+	var re = /(master|f\-.+)$/i;
+	return branchName.match(re);
+};
+
 var hasCommitCommand = function (message) {
-	// iss = #abc-123
-	// cmd = fixed assignee luc state testing
-	var re = /(?<iss>\#\w+\-\d+)\s(?<cmd>(\w+)+)/i;
-	return (message.match(re).length > 0);
+	// (space)#abc-123(space)
+	var re = /\s(\#\w+\-\d+)\s/i;
+	return message.match(re);
+};
+
+var linkToYouTrack = function(commit) {
+	console.log("DO STUFF HERE: %s", commit.id.substr(0, 7));
 };
 
 http.createServer(function (req, res) {
@@ -24,15 +37,25 @@ handler.on('push', function (event) {
 		return;
 	}
 
-	console.log('Received a push event for %s to %s',
+	console.log('Received a push event for %s to %s (%s)',
 		payload.repository.name,
-		payload.ref);
+		payload.ref,
+		payload.commits.length);
 	
-	for (var index = 0; index < payload.commits.length; index++) {
-		var commit = payload.commits[index];
-		if (hasCommitCommand(commit.message))
-			console.log("do stuff here with %s", commit.id);
-		else 
-			console.log("nothing to do for %s", commit.id);
+	if (!isMasterOrFeatureBranch(payload.ref)) {
+		console.log('Do not process commits!');
+		return;
 	}
+
+	var youTrackCommits = _.filter(payload.commits, function(commit) {
+		return commit.distinct && hasCommitCommand(commit.message);
+	});
+	
+	if (youTrackCommits.length == 0) {
+		console.log('No commits refer to cases in YouTrack');
+		return;
+	}
+
+	_.each(youTrackCommits, linkToYouTrack);
+
 });
