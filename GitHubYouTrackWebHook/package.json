@@ -1,0 +1,11 @@
+{
+	"name": "GitHubYouTrackWebHook",
+	"version": "0.0.0",
+	"description": "GitHubYouTrackWebHook",
+	"main": "server.js",
+	"devDependencies": {
+		"github-webhook-handler": "",
+		"youtrack-rest-node-library": "",
+		"crypto": ""
+	}
+}
