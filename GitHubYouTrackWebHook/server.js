@@ -19,7 +19,8 @@ var hasCommitCommand = function (message) {
 	return message.match(re);
 };
 
-var linkToYouTrack = function(commit) {
+var linkToYouTrack = function (commit) {
+
 	console.log("DO STUFF HERE: %s", commit.id.substr(0, 7));
 };
 
@@ -31,6 +32,7 @@ http.createServer(function (req, res) {
 }).listen(port);
 
 handler.on('push', function (event) {
+
 	var payload = event.payload;
 	if (payload == null) {
 		console.error("Payload is null");
