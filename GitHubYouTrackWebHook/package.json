@@ -4,8 +4,8 @@
 	"description": "GitHubYouTrackWebHook",
 	"main": "server.js",
 	"devDependencies": {
+		"underscore": "",
 		"github-webhook-handler": "",
-		"youtrack-rest-node-library": "",
 		"crypto": ""
 	}
 }
