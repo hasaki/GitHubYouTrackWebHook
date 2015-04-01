@@ -16,7 +16,7 @@ module.exports = function (config) {
 	function queryYoutrack(method, host, path, data, cb) {
 		if (cb == null) {
 			cb = data;
-			data = {};
+			data = null;
 		} 
 
 		var payload = {
@@ -29,7 +29,7 @@ module.exports = function (config) {
 			}
 		};
 		
-		if (method == 'POST')
+		if (data)
 			payload.form = data;
 
 		request(payload, cb);
@@ -48,9 +48,13 @@ module.exports = function (config) {
 			return;
 		}
 		
-		var path = '/rest/user/login?login=' + encode(_config.youtrackUsername()) + '&password=' + encode(_config.youtrackPassword());
-		
-		queryYoutrack('POST', _config.youtrackHost(), path, function (err, res) {
+		var path = '/rest/user/login';
+		var data = {
+			login: _config.youtrackUsername(),
+			password: _config.youtrackPassword()
+		};
+
+		queryYoutrack('POST', _config.youtrackHost(), path, data, function (err, res) {
 			if (err) {
 				callback(err);
 			} else {
@@ -60,27 +64,6 @@ module.exports = function (config) {
 		});
 	}
 	
-	/*
-	counter = 0
-	found_user = nil
-	while true
-	  body = ''
-	  res = http_get 'rest/admin/user', :q => email, :group => data['committers'], :start => counter
-	  verify_response(res)
-	  xml_body = REXML::Document.new(res.body)
-	  xml_body.root.each_element do |user_ref|
-		res = http_get "rest/admin/user/#{user_ref.attributes['login']}"
-		verify_response(res)
-		attributes = REXML::Document.new(res.body).root.attributes
-		if attributes['email'].upcase == email.upcase || (attributes['jabber'] ? attributes['jabber'].upcase == email.upcase : false)
-		  return if !found_user.nil?
-		  found_user = user_ref.attributes['login']
-		end
-	  end
-	  return found_user if xml_body.root.elements.size < 10
-	  counter += 10
-	end
-	 */
 	youtrack.findUserForEmailAddress = function (email, callback) {
 		youtrack.queryUsers(email, function (err, users) {
 			if (err)
@@ -88,7 +71,7 @@ module.exports = function (config) {
 			else if (Array.isArray(users) && users.length == 1)
 				callback(users[0].login);
 			else
-				callback(config.youtrackUsername());
+				callback(null);
 		});
 	}
 	

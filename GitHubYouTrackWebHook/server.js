@@ -48,25 +48,57 @@ handler.on('push', function (event) {
 	});
 });
 
+handler.on('pull_request', function(event) {
+	var payload = event.payload;
+	if (payload == null)
+		return;
+
+	if (payload.action != 'closed')
+		return;
+	
+	var email = (payload.sender ? payload.sender.email : null);
+	if (email == null)
+		return;
+	var msg = (payload.pull_request ? payload.pull_request.body : null);
+	if (msg == null)
+		return;
+	
+	var commands = getCommitCommands(msg);
+	if (commands.length == 0)
+		return;
+
+	var config = new Conf();
+	config.load(function() {
+		if (!config.repositoryMatches(payload.repository.full_name)) {
+			console.log('Repository not allowed!');
+			return;
+		}
+		if (!config.branchMatches('refs/heads/' + payload.pull_request.base.ref)) {
+			console.log('Branch not allowed!');
+			return;
+		}
+
+		console.log('Pull request accepted! (TODO: PROCESS!)');
+	});
+});
+
 function processCommit(config, youtrack, commit) {
-	if (!commit.distinct && !config.processDistinct()) {
+	if (!commit.distinct || config.processDistinct() == false) {
 		console.log('Non-distinct processing not enabled!');
 		return;
 	}
 	
-	console.log(util.inspect(commit));
-	
 	var commands = getCommitCommands(commit.message);
 	if (commands.length == 0)
 		return;
+
+	console.log(util.inspect(commit));
 	
 	youtrack.findUserForEmailAddress(commit.author.email, function (login) {
 		if (!login) {
 			console.log("Could not get list of users, maybe your login isn't an admin?");
 			return;
 		}
-
-		console.log('user found: ' + login);
 
 		_.each(commands, function(commandArray) {
 			performCommand(youtrack, commit, login, commandArray);
