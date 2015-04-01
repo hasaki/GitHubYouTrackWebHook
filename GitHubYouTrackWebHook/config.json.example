@@ -1,0 +1,17 @@
+﻿{
+	"github": {
+		"branches": [ 
+			"master",                              // process the master branch
+			"feature\/.*"                          // process any branch beginning 'feature/'
+		],
+		"repositories": [
+			"OrganizationA/cool-utility",          // allow pushes from OrganizationA's cool-utility repo
+			"OrganizationB\/.*"                    // allow all repos from OrganizationB
+		]
+	},
+	"youtrack": {
+		"url": "http://youtrack.mycompany.com/",   // base url for your youtrack server
+		"user": "ServerMaintainer",                // the user to login as
+		"password": "superSekret"                  // the users password
+	}
+}
