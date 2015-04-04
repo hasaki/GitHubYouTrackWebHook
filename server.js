@@ -10,11 +10,13 @@ var request = bareRequest.defaults({
 	json: true
 });
 
-var Youtrack = require('lib/youtrack');
-var Conf = require('lib/conf');
+var Conf = require('./lib/conf');
+var Youtrack = require('./lib/youtrack');
 
 var githubHandlerFactory = require('github-webhook-handler');
 var handler = githubHandlerFactory({ path: '/webhook', secret: 'hah' });
+
+var configFile = __dirname + '/config.json';
 
 http.createServer(function (req, res) {
 	handler(req, res, function (err) {
@@ -36,7 +38,7 @@ handler.on('push', function (event) {
 		payload.commits.length);
 	
 	var config = new Conf();
-	config.load(function () {
+	config.load(configFile, function () {
 		if (!config.repositoryMatches(payload.repository.full_name)) {
 			console.log('Repository not allowed!');
 			return;
@@ -75,7 +77,7 @@ handler.on('pull_request', function(event) {
 		return;
 
 	var config = new Conf();
-	config.load(function() {
+	config.load(configFile, function() {
 		if (!config.repositoryMatches(payload.repository.full_name)) {
 			console.log('Repository not allowed!');
 			return;
