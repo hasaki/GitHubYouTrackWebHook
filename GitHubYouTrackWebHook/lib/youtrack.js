@@ -1,18 +1,13 @@
-﻿var bareRequest = require('request');
-var request = bareRequest.defaults({
-	method: 'POST',
-	json: true
-});
+﻿var encode = encodeURIComponent;
 
-var encode = encodeURIComponent;
-
-module.exports = function (config) {
+module.exports = function (request, config) {
 	var youtrack = {};
 	
 	var _config = config;
+	var _request = request;
 	var _jar = request.jar();
 	var _loggedin = false;
-	
+
 	function queryYoutrack(method, host, path, data, cb) {
 		if (cb == null) {
 			cb = data;
@@ -32,7 +27,7 @@ module.exports = function (config) {
 		if (data)
 			payload.form = data;
 
-		request(payload, cb);
+		_request(payload, cb);
 	}
 	
 	youtrack.config = function (config) {

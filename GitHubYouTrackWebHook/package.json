@@ -4,9 +4,11 @@
 	"description": "GitHubYouTrackWebHook",
 	"main": "server.js",
 	"devDependencies": {
+		"grunt": "",
+		"grunt-contrib-nodeunit": "",
+		"grunt-contrib-watch": "",
 		"underscore": "",
 		"github-webhook-handler": "",
-		"crypto": "",
 		"request": "",
 		"jsonfile": ""
 	}

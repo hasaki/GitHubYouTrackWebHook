@@ -2,9 +2,16 @@
 var port = process.env.port || 1337;
 
 var _ = require('underscore');
-var Youtrack = require('./youtrack-api');
-var Conf = require('./conf');
 var util = require('util');
+
+var bareRequest = require('request');
+var request = bareRequest.defaults({
+	method: 'POST',
+	json: true
+});
+
+var Youtrack = require('lib/youtrack');
+var Conf = require('lib/conf');
 
 var githubHandlerFactory = require('github-webhook-handler');
 var handler = githubHandlerFactory({ path: '/webhook', secret: 'hah' });
@@ -39,7 +46,7 @@ handler.on('push', function (event) {
 			return;
 		}
 		
-		var youtrack = new Youtrack(config);
+		var youtrack = new Youtrack(request, config);
 		youtrack.login(function () {
 			_.each(payload.commits, function (commit) {
 				processCommit(config, youtrack, commit);
