@@ -1,8 +1,15 @@
 #############
+## Project specific
+#############
+config.json
+
+
+#############
 ## node.js
 #############
 
 node_modules/
+npm_debug.log
 
 ##############
 ## node tools for visual studio

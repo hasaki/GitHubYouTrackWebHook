@@ -8,6 +8,7 @@
 	},
 	"devDependencies": {
 		"grunt": "",
+		"grunt-cli": "",
 		"grunt-contrib-nodeunit": "",
 		"grunt-contrib-watch": "",
 		"underscore": "",

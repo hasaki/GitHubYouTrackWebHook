@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "GitHubYouTrackWebHook", "GitHubYouTrackWebHook\GitHubYouTrackWebHook.njsproj", "{D395173C-1A0B-47FF-A09D-22F7BB6F65DC}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "GitHubYouTrackWebHook", "GitHubYouTrackWebHook.njsproj", "{D395173C-1A0B-47FF-A09D-22F7BB6F65DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
