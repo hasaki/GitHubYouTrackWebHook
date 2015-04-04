@@ -3,6 +3,9 @@
 	"version": "0.0.0",
 	"description": "GitHubYouTrackWebHook",
 	"main": "server.js",
+	"scripts": {
+		"test": "grunt nodeunit"
+	},
 	"devDependencies": {
 		"grunt": "",
 		"grunt-contrib-nodeunit": "",
