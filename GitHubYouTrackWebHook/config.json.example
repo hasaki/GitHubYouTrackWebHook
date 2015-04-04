@@ -1,17 +1,20 @@
-﻿{
+{
+	"processDistinct": true,
 	"github": {
-		"branches": [ 
-			"master",                              // process the master branch
-			"feature\/.*"                          // process any branch beginning 'feature/'
-		],
+		"branches": [ "master", "F-.*", "feature/.*" ],
 		"repositories": [
-			"OrganizationA/cool-utility",          // allow pushes from OrganizationA's cool-utility repo
-			"OrganizationB\/.*"                    // allow all repos from OrganizationB
+			{ "url": "hasaki/HookTesting", "branches": ["master"] },
+			{ "url": "InfoPlanIT\/.*" }
 		]
 	},
 	"youtrack": {
-		"url": "http://youtrack.mycompany.com/",   // base url for your youtrack server
-		"user": "ServerMaintainer",                // the user to login as
-		"password": "superSekret"                  // the users password
+		"url": "http://youtrack.ngrok.com",
+		"user": "AnAdminuser",
+		"password": "secret",
+		"committerGroups":  [ "All Users"],
+		"projects": [
+			{ "id": "PRJA" },
+			{ "id": "PRJB", "committerGroups":  [ "Internal Devs" ] }
+		]
 	}
 }
