@@ -10,6 +10,7 @@
 		"grunt": "",
 		"grunt-cli": "",
 		"grunt-contrib-nodeunit": "",
+		"grunt-contrib-jshint": "",
 		"grunt-contrib-watch": "",
 		"underscore": "",
 		"github-webhook-handler": "",

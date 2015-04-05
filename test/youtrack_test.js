@@ -1,4 +1,7 @@
-﻿'use strict';
+﻿/*jshint globalstrict: true*/
+/*global require, exports */
+
+'use strict';
 
 var _ = require('underscore');
 var Youtrack = require('../lib/youtrack.js');
@@ -23,7 +26,7 @@ var Youtrack = require('../lib/youtrack.js');
 */
 
 
-exports['youtrack'] = {
+exports.youtrack = {
 	setUp: function (done) {
 		// setup here
 		done();
